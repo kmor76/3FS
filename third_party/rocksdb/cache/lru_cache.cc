@@ -101,7 +101,7 @@ void LRUHandleTable::Resize() {
       h->next_hash = *ptr;
       *ptr = h;
       h = next;
-      count++;
+      // count++;
     }
   }
   assert(elems_ == count);
