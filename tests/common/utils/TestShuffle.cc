@@ -8,6 +8,8 @@
 #include "common/utils/Shuffle.h"
 #include "fmt/core.h"
 
+#include <fstream>
+
 DEFINE_int32(test_shuffle, 10000, "shuffle times");
 DEFINE_string(test_dump_path, "", "3fs meta dump path");
 
