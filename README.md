@@ -16,6 +16,7 @@ The Fire-Flyer File System (3FS) is a high-performance distributed file system d
   - **Checkpointing** Supports high-throughput parallel checkpointing for large-scale training.
   - **KVCache for Inference** Provides a cost-effective alternative to DRAM-based caching, offering high throughput and significantly larger capacity.
 
+
 ## Documentation
 
 * [Design Notes](docs/design_notes.md)
