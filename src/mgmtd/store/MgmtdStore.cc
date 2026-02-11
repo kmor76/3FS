@@ -94,7 +94,7 @@ String getConfigKey(flat::NodeType nodeType, flat::ConfigVersion version) {
   return buf;
 }
 
-folly::Expected<std::tuple<flat::NodeType, flat::ConfigVersion>> decodeConfigKey(std::string_view s) {
+CoTryTask<std::tuple<flat::NodeType, flat::ConfigVersion>> decodeConfigKey(std::string_view s) {
   Deserializer des(s);
   auto keyPrefix = co_await des.get<kv::KeyPrefix>();
 //  if (keyPrefix != kv::KeyPrefix::Config) {
