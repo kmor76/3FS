@@ -94,26 +94,26 @@ String getConfigKey(flat::NodeType nodeType, flat::ConfigVersion version) {
   return buf;
 }
 
-CoTryTask<std::tuple<flat::NodeType, flat::ConfigVersion>> decodeConfigKey(std::string_view s) {
+ Result<std::tuple<flat::NodeType, flat::ConfigVersion>> decodeConfigKey(std::string_view s) {
   Deserializer des(s);
-  auto keyPrefix = co_await des.get<kv::KeyPrefix>();
+  auto keyPrefix = des.get<kv::KeyPrefix>();
 //  if (keyPrefix != kv::KeyPrefix::Config) {
 //    co_return makeError(StatusCode::kDataCorruption,
 //                        fmt::format("Decode config key failed: prefix mismatch. key: {}. expected prefix: {}.",
 //                                    toHexString(s),
 //                                    kv::toStr(kv::KeyPrefix::Config)));
 //  }
-  auto typeStr = co_await des.getShortString();
+  auto typeStr = des.getShortString();
   auto type = magic_enum::enum_cast<flat::NodeType>(typeStr);
 //  if (!type) {
 //    co_return makeError(
 //        StatusCode::kDataCorruption,
 //        fmt::format("Decode config key failed: unknown type. key: {}. type: {}", toHexString(s), typeStr));
 //  }
-  auto reversedBigVer = co_await des.get<uint64_t>();
+  auto reversedBigVer = des.get<uint64_t>();
   auto reversedLittleVer = folly::Endian::big64(reversedBigVer);
   auto ver = std::numeric_limits<uint64_t>::max() - reversedLittleVer;
-  co_return std::make_tuple(*type, flat::ConfigVersion(ver));
+  return std::make_tuple(*type, flat::ConfigVersion(ver));
 }
 
 std::string_view getConfigKeyPrefix() { return kv::toStr(kv::KeyPrefix::Config); }
